@@ -1,1 +1,1 @@
-web: python gradecalc.py ${PORT}
+web: python gradecalc.py $PORT
