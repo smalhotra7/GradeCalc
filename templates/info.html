@@ -1,0 +1,62 @@
+<!doctype html>
+<html ng-app="app">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Grade Calculator</title>
+    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <!-- <link rel="stylesheet" type=text/css href=" {{url_for('static', filename='css/styles.css') }}"> -->
+    <link rel="stylesheet" type=text/css href=" {{url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" type=text/css href=" {{url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" type=text/css href=" {{url_for('static', filename='css/xeditable.css') }}">
+    <script src = "{{url_for('static', filename='js/jquery-2.1.0.min.js') }}"></script>
+    <script src = "{{url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script src = "{{url_for('static', filename='js/angular.min.js') }}"></script>
+    <script src = "{{url_for('static', filename='js/app.js') }}"></script>
+    <script src = "{{url_for('static', filename='js/xeditable.min.js') }}"></script>
+  </head>
+
+  <body>
+    <div id="wrap">
+      <div ng-controller="GradeCalcCtrl">
+
+
+      <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+
+        <div class="navbar-header">
+          <a href="{{ url_for('homepage') }}" class="navbar-brand">Grade Calculator</a>
+
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right"><li><a href="{{ url_for('homepage') }}">Back</a></li></ul>
+        </div>
+          
+
+      </div>
+      </div>
+      
+
+      <div class="container" style="padding-top:60px">
+        <div class="page-header">
+        <h3>Information | Grade Calculator v{{version}}</h3>
+      </div>
+        <h4>A simple webapp to help you quickly calculate your current and future grades for a course. Click the New Category button to add a new grading category (tests, quizzes, etc). You can then set its weight and add individual grades to it. Once you've added all your current grades, click the Check Future Scenarios button to see what would happen if you got a certain grade, or what grade you need to obtain a certain average. For example, this is useful for finding out what grade you need on a final exam to obtain a certain grade in the course. <br></br>Feedback and comments are much appreciated at <a href="mailto:smalhotra7@gatech.edu">smalhotra7@gatech.edu</a></h4>
+      </div>
+    
+
+
+
+  <!-- FOOTER -->
+
+<div id="push"></div>
+
+</div>
+</div>
+    <div id="footer">
+    <div class="container text-center">
+      <div>&copy; Sanchit Malhotra, 2014</div>
+    </div>
+  </div>
+
+  </body>
+</html>
