@@ -4,7 +4,6 @@
     <meta charset="utf-8"/>
     <title>Grade Calculator</title>
     <meta name="viewport" content="width=device-width, intial-scale=1.0">
-    <!-- <link rel="stylesheet" type=text/css href=" {{url_for('static', filename='css/styles.css') }}"> -->
     <link rel="stylesheet" type=text/css href=" {{url_for('static', filename='css/bootstrap.css') }}">
     <link rel="stylesheet" type=text/css href=" {{url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" type=text/css href=" {{url_for('static', filename='css/xeditable.css') }}">
@@ -20,135 +19,123 @@
       <div ng-controller="GradeCalcCtrl">
 
 
-      <div class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-
-        <div class="navbar-header">
-          <a href="#" class="navbar-brand">Grade Calculator</a>
-
+        <!-- NAVBAR -->
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="#" class="navbar-brand">Grade Calculator</a>
+            </div>
+            <div class="collapse navbar-collapse">
+              <ul class="nav navbar-nav navbar-right"><li><a href="#" ng-click="showExample()">Show Example</a></li><li><a href="{{url_for('info')}}">Info</a></li><li><a href="{{url_for('signin')}}">Sign In</a></li></ul>
+            </div>
+          </div>
         </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav navbar-right"><li><a href="#" ng-click="showExample()">Show Example</a></li><li><a href="{{url_for('info')}}">Info</a></li><li><a href="{{url_for('signin')}}">Sign In</a></li></ul>
-        </div>
-          
 
-      </div>
-      </div>
-                <!-- GRADE & SCENARIOS -->
-          <div class="container text-center" style="padding-top:40px">
-            <div class="row">
-              <div class="col-md-12">
-                <h3>Your grade is currently <span class="grade-[[getLetterGrade(getCourseAverage())]]">[[getCourseAverage()]]% ([[getLetterGrade(getCourseAverage())]])</span></h3>
-              </div>
+        <!-- GRADE & SCENARIOS -->
+        <div class="container text-center" style="padding-top:40px">
+          <div class="row">
+            <div class="col-md-12">
+              <h3>Your grade is currently <span class="grade-[[getLetterGrade(getCourseAverage())]]">[[getCourseAverage()]]% ([[getLetterGrade(getCourseAverage())]])</span></h3>
+            </div>
 
             <div class="container">
-
               <div style="padding-top:20px" ng-show="!scenarios">
                 <button class="btn btn-default" ng-click="toggleScenarios()">Check Future Scenarios <span class="glyphicon glyphicon-chevron-down"></span></button>
               </div>
 
               <div style="padding-top:20px" ng-show="scenarios">
                 <div class="img-rounded" style="background-color:#f0f0f0; padding-top:5px; padding-bottom:5px">
-                <div ng-show="getRemainingWeight() === 0">
-                  <h4>Looks like all your grades have already been accounted for!</h4>
+                  <div ng-show="getRemainingWeight() === 0">
+                    <h4>Looks like all your grades have already been accounted for!</h4>
+                  </div>
+                  <div ng-show="getRemainingWeight() != 0">
+                    <h5>Looks like [[getRemainingWeight()]]% of your grade hasn't been accounted for yet.</h5>
+                    <div><h4>In order to get a <span editable-number="scenario1" e-style="width: 60px">[[scenario1 || '0']]</span>% in the course, my remaining average needs to be at least <span class="grade-[[getLetterGrade(getScenario1())]]">[[getScenario1()]]%</span> </h4></div>
+                    <div><h4>If my remaining average is <span editable-number="scenario2" e-style="width: 60px">[[scenario2 || '0']]</span>%, my final grade will be <span class="grade-[[getLetterGrade(getScenario2())]]">[[getScenario2()]]%</span> </h4></div>
+                  </div>
                 </div>
-                <div ng-show="getRemainingWeight() != 0">
-                  <h5>Looks like [[getRemainingWeight()]]% of your grade hasn't been accounted for yet.</h5>
-                  <div><h4>In order to get a <span editable-number="scenario1" e-style="width: 60px">[[scenario1 || '0']]</span>% in the course, my remaining average needs to be at least <span class="grade-[[getLetterGrade(getScenario1())]]">[[getScenario1()]]%</span> </h4></div>
-                  <div><h4>If my remaining average is <span editable-number="scenario2" e-style="width: 60px">[[scenario2 || '0']]</span>%, my final grade will be <span class="grade-[[getLetterGrade(getScenario2())]]">[[getScenario2()]]%</span> </h4></div>
-                </div>
-              </div>
                 <button class="btn btn-default" ng-click="toggleScenarios()">Hide Future Scenarios <span class="glyphicon glyphicon-chevron-up"></span></button>
+              </div>
             </div>
           </div>
         </div>
-        </div>
-    
 
-      <!-- HEADING -->
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <h3>Grading Categories:
-              <div class="btn-toolbar" role="toolbar">
-                <button ng-click="clearAll()" class="btn btn-default pull-right">Clear All</button>
-                <button ng-click="addCategory()" id="newCategoryButton" class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus"></span> New Category</button>
+        <!-- CATEGORY AREA HEADER -->
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h3>Grading Categories:
+                <div class="btn-toolbar" role="toolbar">
+                  <button ng-click="clearAll()" class="btn btn-default pull-right">Clear All</button>
+                  <button ng-click="addCategory()" id="newCategoryButton" class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus"></span> New Category</button>
+                </div>
+              </h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- CATEGORIES -->
+        <div class="container" style="padding-top:10px">
+          <div class="col-md-4" ng-repeat="category in categories">
+            <form editable-form name="categoryForm" onaftersave="saveCategory($index)" oncancel="cancel($index)">
+              <div class="panel panel-primary">
+
+                <div class="panel-heading">
+                  <div class="panel-title">
+                    <span editable-text="category.name" e-form="categoryForm" e-placeholder="e.g. Tests, Quizzes, etc.">[[category.name || 'not set']]</span> 
+                    <span class="pull-right">Weight:
+                      <span editable-number="category.weight" e-form="categoryForm" e-style="width: 60px" onbeforesave="checkWeight($data, $index)"><b>[[category.weight || 0]]</b></span>%
+                    </span>
+                  </div>
+                </div>
+
+                <table class="table">
+
+                  <tr ng-repeat="assignment in category.assignments" ng-show="!assignment.isDeleted">
+                    <td>
+                      <span ng-show="assignment.isNew">New Grade</span><span ng-show="!assignment.isNew">Grade [[$index + 1]]:</span>
+                      <span class="pull-right">
+                        <b><span editable-number="assignment.score" e-form="categoryForm" e-style="width: 70px">[[assignment.score]]</span></b> out of <b><span editable-number="assignment.total" e-form="categoryForm" e-style="width: 70px" onbeforesave="checkZero($data)">[[assignment.total]]</span></b>
+                        <button type="button" class="btn btn-danger btn-sm" ng-show="categoryForm.$visible" ng-click="deleteAssignment($parent.$index, $index)"><span class="glyphicon glyphicon-minus"></span></button>
+                      </span>
+                    </td>
+                  </tr>
+
+                  <tr ng-show="!categoryForm.$visible">
+                    <td>
+                      <b>[[category.name]] Average</b> <span class="pull-right"><b>[[getCategoryAverage($index)]]</b>%</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="btn-edit">
+                        <button type="button" class="btn btn-primary" ng-show="!categoryForm.$visible" ng-click="categoryForm.$show()">Edit</button>
+                        <button type="button" class="btn btn-danger pull-right" ng-show="!categoryForm.$visible" ng-click="deleteCategory($index)">Delete</button>
+                      </div>
+                      <div class="btn-form" ng-show="categoryForm.$visible">
+                        <button type="button" ng-disabled="categoryForm.$waiting" ng-click="addAssignment($index)" class="btn btn-default pull-right">Add New Grade</button>
+                        <button type="submit" ng-disabled="categoryForm.$waiting" class="btn btn-primary">Save</button>
+                        <button type="button" ng-disabled="categoryForm.$waiting" ng-click="categoryForm.$cancel()" class="btn btn-default">Cancel</button>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
               </div>
-            </h3>
-          </div>
-        </div>
-      </div>
-
-      <!-- CATEGORIES -->
-      <div class="container" style="padding-top:10px">
-
-      <div class="col-md-4" ng-repeat="category in categories">
-
-        <form editable-form name="categoryForm" onaftersave="saveCategory($index)" oncancel="cancel($index)">
-
-        <div class="panel panel-primary">
-        <div class="panel-heading">
-          <div class="panel-title">
-            <span editable-text="category.name" e-form="categoryForm" e-placeholder="e.g. Tests, Quizzes, etc.">[[category.name || 'not set']]</span> 
-            <span class="pull-right">Weight:
-              <span editable-number="category.weight" e-form="categoryForm" e-style="width: 60px" onbeforesave="checkWeight($data, $index)"><b>[[category.weight || 0]]</b></span>
-              %
-            </span>
+            </form>
           </div>
         </div>
 
-          <table class="table">
-
-            <tr ng-repeat="assignment in category.assignments" ng-show="!assignment.isDeleted">
-              <td>
-                <span ng-show="assignment.isNew">New Grade</span><span ng-show="!assignment.isNew">Grade [[$index + 1]]:</span>
-                <span class="pull-right">
-                  <b><span editable-number="assignment.score" e-form="categoryForm" e-style="width: 70px">[[assignment.score]]</span></b>
-                   out of 
-                   <b><span editable-number="assignment.total" e-form="categoryForm" e-style="width: 70px" onbeforesave="checkZero($data)">[[assignment.total]]</span></b>
-                   <button type="button" class="btn btn-danger btn-sm" ng-show="categoryForm.$visible" ng-click="deleteAssignment($parent.$index, $index)"><span class="glyphicon glyphicon-minus"></span></button>
-                </span>
-
-              </td>
-            </tr>
-
-            <tr ng-show="!categoryForm.$visible">
-              <td>
-                <b>[[category.name]] Average</b> <span class="pull-right"><b>[[getCategoryAverage($index)]]</b>%</span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="btn-edit">
-                  <button type="button" class="btn btn-primary" ng-show="!categoryForm.$visible" ng-click="categoryForm.$show()">Edit</button>
-                  <button type="button" class="btn btn-danger pull-right" ng-show="!categoryForm.$visible" ng-click="deleteCategory($index)">Delete</button>
-                </div>
-                <div class="btn-form" ng-show="categoryForm.$visible">
-                  <button type="button" ng-disabled="categoryForm.$waiting" ng-click="addAssignment($index)" class="btn btn-default pull-right">Add New Grade</button>
-                  <button type="submit" ng-disabled="categoryForm.$waiting" class="btn btn-primary">Save</button>
-                  <button type="button" ng-disabled="categoryForm.$waiting" ng-click="categoryForm.$cancel()" class="btn btn-default">Cancel</button>
-                </div>
-          </table>
-        </div>
-
-      </form>
-
-
+        <div id="push"></div>
       </div>
     </div>
 
+    <!-- FOOTER -->
 
-  <!-- FOOTER -->
-
-<div id="push"></div>
-
-</div>
-</div>
     <div id="footer">
-    <div class="container text-center">
-      <div>&copy; Sanchit Malhotra, 2014</div>
+      <div class="container text-center">
+        <div>&copy; Sanchit Malhotra, 2014</div>
+      </div>
     </div>
-  </div>
 
   </body>
 </html>

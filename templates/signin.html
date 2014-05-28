@@ -19,43 +19,35 @@
     <div id="wrap">
       <div ng-controller="GradeCalcCtrl">
 
-
-      <div class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-
-        <div class="navbar-header">
-          <a href="{{ url_for('homepage') }}" class="navbar-brand">Grade Calculator</a>
-
+        <!-- HEADER -->
+        <div class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="{{ url_for('homepage') }}" class="navbar-brand">Grade Calculator</a>
+            </div>
+            <div class="collapse navbar-collapse">
+              <ul class="nav navbar-nav navbar-right"><li><a href="{{ url_for('homepage') }}">Back</a></li></ul>
+            </div>
+          </div>
         </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav navbar-right"><li><a href="{{ url_for('homepage') }}">Back</a></li></ul>
+
+        <!-- CONTENT -->
+        <div class="container" style="padding-top:60px">
+          <div class="page-header">
+            <h3>Sign in support coming soon!</h3>
+          </div>
         </div>
-          
 
+        <div id="push"></div>
       </div>
-      </div>
-      
-
-      <div class="container" style="padding-top:60px">
-        <div class="page-header">
-          <h3>Sign in support coming soon!</h3>
-        </div>
-      </div>
-    
-
-
-
-  <!-- FOOTER -->
-
-<div id="push"></div>
-
-</div>
-</div>
-    <div id="footer">
-    <div class="container text-center">
-      <div>&copy; Sanchit Malhotra, 2014</div>
     </div>
-  </div>
+
+    <!-- FOOTER -->
+    <div id="footer">
+      <div class="container text-center">
+        <div>&copy; Sanchit Malhotra, 2014</div>
+      </div>
+    </div>
 
   </body>
 </html>
