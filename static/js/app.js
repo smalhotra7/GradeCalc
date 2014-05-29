@@ -47,7 +47,6 @@ app.controller('GradeCalcCtrl', function($scope) {
       ]
     }
     ];
-    $scope.scenarios = true;
     $scope.scenario1 = 90;
     $scope.scenario2 = 90;
 
@@ -84,7 +83,7 @@ app.controller('GradeCalcCtrl', function($scope) {
 
   $scope.addCategory = function() {
     $scope.categories.push({
-      name:'New Category', weight:0.0, assignments:[]
+      name:'New Category', weight:0.0, assignments:[], isNew:true
     });
   };
 
@@ -97,6 +96,10 @@ app.controller('GradeCalcCtrl', function($scope) {
   $scope.deleteAssignment = function(catIndex, asgnIndex) {
     $scope.categories[catIndex].assignments[asgnIndex].isDeleted = true;
     //$scope.categories[catIndex].assignments.splice(asgnindex, 1);
+  };
+
+  $scope.newCategoryForm = function() {
+    return 'categoryForm.$show()';
   };
 
   /*$scope.getCategory = function(id) {
@@ -161,6 +164,25 @@ app.controller('GradeCalcCtrl', function($scope) {
     if (currentweight + weight > 100) {
       return "Weight total cannot exceed 100!";
     }
+  };
+
+  $scope.getTotalWeight = function() {
+    var totalweight = 0.0;
+    for (var i=0; i<$scope.categories.length; i++) {
+      totalweight = totalweight + $scope.categories[i].weight;
+    }
+    return totalweight;
+  };
+
+  $scope.blankCheck = function() {
+    for (var i=0; i<$scope.categories.length; i++) {
+      for (var j=0; j<$scope.categories[i].assignments.length; j++) {
+        if ($scope.categories[i].weight > 0) {
+          return false;
+        }
+      }
+    }
+    return true;
   };
 
   $scope.getCategoryAverage = function(index) {

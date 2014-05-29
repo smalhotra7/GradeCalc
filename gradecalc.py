@@ -14,7 +14,7 @@ app.config.update(dict(
 ))
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
-version = 1.0
+version = '1.0.1'
 
 def connect_db():
 	rv = sqlite3.connect(app.config['DATABASE'])
