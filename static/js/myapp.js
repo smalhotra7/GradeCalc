@@ -83,7 +83,7 @@ app.controller('GradeCalcCtrl', function($scope) {
 
   $scope.addCategory = function() {
     $scope.categories.push({
-      name:'New Category', weight:0.0, assignments:[], isNew:true
+      name:'', weight:0.0, assignments:[], isNew:true
     });
   };
 
